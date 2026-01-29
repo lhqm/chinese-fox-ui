@@ -1,0 +1,135 @@
+:root {
+  /* Common */
+  --cf-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --cf-font-family: "KaiTi", "STKaiti", "SimSun", "Noto Serif SC", serif;
+  
+  /* Layout */
+  --cf-padding-base: 12px;
+  --cf-padding-large: 16px;
+  --cf-padding-small: 8px;
+}
+
+/* 
+  Suya (素雅) - Ink Wash & Celadon Style 
+  Key: Subtle, Atmospheric, Flowing, Multi-layered greys and blues
+*/
+:root, [data-theme="suya"] {
+  /* Palette: Ink (Black/Grey), Water (White/Transparent), Mountain (Blue/Cyan) */
+  --cf-color-primary: #4a6a74; /* Dai Blue (Mountain Mist) */
+  --cf-color-primary-hover: #2c444e;
+  --cf-color-secondary: #7f8c8d; /* Stone Grey */
+  
+  --cf-color-bg: #f5f7f9; /* Mist White */
+  --cf-color-surface: #ffffff;
+  
+  --cf-color-text: #2c3e50; /* Ink Black */
+  --cf-color-text-secondary: #7f8c8d;
+  
+  --cf-color-border: #dae1e7;
+  
+  /* Shadows: Soft, diffused like ink on wet paper */
+  --cf-shadow: 0 4px 20px rgba(74, 106, 116, 0.08);
+  --cf-shadow-hover: 0 8px 30px rgba(74, 106, 116, 0.15);
+  
+  --cf-border-radius: 6px;
+  --cf-border-width: 1px;
+  --cf-border-style: solid;
+  
+  /* Accents */
+  /* Rice paper texture overlay */
+  --cf-bg-pattern: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  --cf-bg-size: 200px 200px;
+  
+  --cf-accent-decoration: none;
+}
+
+/* 
+  Huali (华丽) - Festive / Celebration Style
+  Key: Festive Red (Big Red), Gold, Pavilions, Knots, Firecrackers.
+  Concept: Low visual burden center (White/Cream), Ornate borders (Red/Gold).
+*/
+[data-theme="huali"] {
+  /* Palette: Soft Festive Red, Imperial Gold, Cream Paper */
+  /* Reduced glare: using a softer, slightly desaturated red instead of #E60012 */
+  --cf-color-primary: #C23E3E; /* Soft Brick Red */
+  --cf-color-primary-hover: #A93232;
+  --cf-color-secondary: #E6B800; /* Muted Gold */
+  
+  --cf-color-bg: #FCFAF5; /* Warmer Cream */
+  --cf-color-surface: #FFFFFF; 
+  
+  --cf-color-text: #4A1F1F; /* Softer Red-Brown */
+  --cf-color-text-secondary: #8C5E5E;
+  
+  --cf-color-border: rgba(194, 62, 62, 0.3); /* Transparent Red Border */
+  
+  /* Shadows: Softer warm glow */
+  --cf-shadow: 0 4px 12px rgba(194, 62, 62, 0.1);
+  --cf-shadow-hover: 0 8px 24px rgba(194, 62, 62, 0.2);
+  
+  --cf-border-radius: 8px; 
+  --cf-border-width: 1px;
+  --cf-border-style: solid;
+  
+  /* Accents - Very subtle lattice */
+  --cf-bg-pattern: 
+    linear-gradient(to right, rgba(194, 62, 62, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(194, 62, 62, 0.02) 1px, transparent 1px);
+  --cf-bg-size: 24px 24px;
+  
+  /* Corner Decoration - Updated to use the new softer red */
+  --cf-corner-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3Cpath d='M0 0v10h2v-8h8v-2H0zm30 0v2h8v8h2V0h-10zM0 30v10h10v-2H2v-8H0zm40 10v-10h-2v8h-8v2h10z' fill='%23C23E3E' opacity='0.6'/%3E%3Cpath d='M5 5h10v2H5zm25 0h-10v2h10zm0 30h-10v-2h10zM5 35h10v-2H5z' fill='%23C23E3E' opacity='0.3'/%3E%3C/svg%3E");
+  
+  /* Border Pattern - Updated to use the new softer red */
+  --cf-border-pattern: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none'/%3E%3Cpath d='M9 0h2v20H9zM0 9h20v2H0z' fill='%23C23E3E' opacity='0.08'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%23E6B800' opacity='0.2'/%3E%3C/svg%3E");
+}
+
+body {
+  background-color: var(--cf-color-bg);
+  background-image: var(--cf-bg-pattern);
+  background-size: var(--cf-bg-size, auto);
+  background-attachment: fixed;
+  color: var(--cf-color-text);
+  font-family: var(--cf-font-family);
+  transition: var(--cf-transition);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Global Transitions */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-up-enter-from, .slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-down-enter-from, .slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.slide-left-enter-active, .slide-left-leave-active,
+.slide-right-enter-active, .slide-right-leave-active {
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-left-enter-from, .slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-12px);
+}
+.slide-right-enter-from, .slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(12px);
+}

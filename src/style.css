@@ -1,0 +1,11 @@
+@import './styles/theme.css';
+
+/* Global Resets or Utils */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}

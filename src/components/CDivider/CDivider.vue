@@ -58,11 +58,21 @@ defineProps<{
 }
 
 /* Content Positioning */
-.c-divider--left::before {
-  width: 20px;
+.c-divider--horizontal.c-divider--center:has(.c-divider__content)::before,
+.c-divider--horizontal.c-divider--center:has(.c-divider__content)::after {
+  flex: 1 1 auto;
 }
-.c-divider--right::after {
-  width: 20px;
+.c-divider--horizontal.c-divider--left:has(.c-divider__content)::before {
+  flex: 0 0 20px;
+}
+.c-divider--horizontal.c-divider--left:has(.c-divider__content)::after {
+  flex: 1 1 auto;
+}
+.c-divider--horizontal.c-divider--right:has(.c-divider__content)::before {
+  flex: 1 1 auto;
+}
+.c-divider--horizontal.c-divider--right:has(.c-divider__content)::after {
+  flex: 0 0 20px;
 }
 
 /* --- Suya Theme (Ink Wash) --- */
@@ -82,7 +92,7 @@ defineProps<{
 .c-divider--horizontal:has(.c-divider__content)::before,
 .c-divider--horizontal:has(.c-divider__content)::after {
   content: '';
-  flex: 1;
+  flex: 1 1 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--cf-color-border) 50%);
 }

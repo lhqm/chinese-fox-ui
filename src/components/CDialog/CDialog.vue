@@ -25,37 +25,39 @@ watch(() => props.modelValue, (val) => {
 </script>
 
 <template>
-  <Transition name="dialog-fade">
-    <div v-if="modelValue" class="c-dialog-overlay" @click.self="close">
-      <div class="c-dialog" :style="dialogStyle">
-        <!-- Close Button -->
-        <button class="c-dialog__close" @click="close">
-          <span class="close-icon">×</span>
-        </button>
-        
-        <!-- Header -->
-        <div v-if="title" class="c-dialog__header">
-          <h3 class="c-dialog__title">{{ title }}</h3>
-        </div>
-        
-        <!-- Body -->
-        <div class="c-dialog__body">
-          <slot></slot>
-        </div>
-        
-        <!-- Footer -->
-        <div v-if="$slots.footer" class="c-dialog__footer">
-          <slot name="footer"></slot>
-        </div>
+  <Teleport to="body">
+    <Transition name="dialog-fade">
+      <div v-if="modelValue" class="c-dialog-overlay" @click.self="close">
+        <div class="c-dialog" :style="dialogStyle">
+          <!-- Close Button -->
+          <button class="c-dialog__close" @click="close">
+            <span class="close-icon">×</span>
+          </button>
+          
+          <!-- Header -->
+          <div v-if="title" class="c-dialog__header">
+            <h3 class="c-dialog__title">{{ title }}</h3>
+          </div>
+          
+          <!-- Body -->
+          <div class="c-dialog__body">
+            <slot></slot>
+          </div>
+          
+          <!-- Footer -->
+          <div v-if="$slots.footer" class="c-dialog__footer">
+            <slot name="footer"></slot>
+          </div>
 
-        <!-- Huali Decorations -->
-        <div class="c-dialog__border-corner c-dialog__border-corner--tl"></div>
-        <div class="c-dialog__border-corner c-dialog__border-corner--tr"></div>
-        <div class="c-dialog__border-corner c-dialog__border-corner--bl"></div>
-        <div class="c-dialog__border-corner c-dialog__border-corner--br"></div>
+          <!-- Huali Decorations -->
+          <div class="c-dialog__border-corner c-dialog__border-corner--tl"></div>
+          <div class="c-dialog__border-corner c-dialog__border-corner--tr"></div>
+          <div class="c-dialog__border-corner c-dialog__border-corner--bl"></div>
+          <div class="c-dialog__border-corner c-dialog__border-corner--br"></div>
+        </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -69,7 +71,7 @@ watch(() => props.modelValue, (val) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2100;
   backdrop-filter: blur(4px);
   transition: opacity 0.3s ease;
 }
@@ -81,6 +83,7 @@ watch(() => props.modelValue, (val) => {
   max-height: 90vh;
   max-width: 90vw;
   transition: var(--cf-transition);
+  z-index: 2101;
 }
 
 .c-dialog__header {

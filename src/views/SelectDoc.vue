@@ -5,6 +5,7 @@ import CSelect from '../components/CSelect/CSelect.vue';
 
 const selectValue1 = ref('');
 const selectValue2 = ref('wei');
+const selectValueLarge = ref('');
 
 const options = [
   { label: '魏国 (Wei)', value: 'wei' },
@@ -12,6 +13,11 @@ const options = [
   { label: '吴国 (Wu)', value: 'wu' },
   { label: '群雄 (Qun)', value: 'qun' },
 ];
+
+const largeOptions = Array.from({ length: 500 }, (_, i) => ({
+  label: `选项 Option ${i + 1}`,
+  value: `opt_${i + 1}`,
+}));
 
 const propsData = [
   { name: 'modelValue', desc: '绑定值 (Value)', type: 'string | number', default: '-' },
@@ -56,6 +62,11 @@ const options = [
         <p>默认选中 (Default Selected): {{ selectValue2 }}</p>
         <CSelect v-model="selectValue2" :options="options" />
       </div>
+
+      <div class="demo-item">
+        <p>超级多数据 (Super Large Data): {{ selectValueLarge }}</p>
+        <CSelect v-model="selectValueLarge" :options="largeOptions" placeholder="请选择 (Select)" />
+      </div>
     </div>
   </CDoc>
 </template>
@@ -65,7 +76,7 @@ const options = [
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 300px;
+  max-width: 360px;
 }
 .demo-item p {
   margin-bottom: 8px;

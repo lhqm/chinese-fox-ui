@@ -16,15 +16,36 @@ const emit = defineEmits(['update:modelValue', 'change', 'visible-change']);
 
 const isOpen = ref(false);
 const selectRef = ref<HTMLElement | null>(null);
+const dropdownPos = ref<{ top: number; left: number; width: number }>({ top: 0, left: 0, width: 0 });
 
 const selectedLabel = computed(() => {
   const selected = props.options.find(opt => opt.value === props.modelValue);
   return selected ? selected.label : '';
 });
 
+const updateDropdownPos = () => {
+  if (!selectRef.value) return;
+  const rect = selectRef.value.getBoundingClientRect();
+  dropdownPos.value = {
+    top: rect.bottom + window.scrollY + 8,
+    left: rect.left + window.scrollX,
+    width: rect.width
+  };
+};
+
+const openDropdown = () => {
+  isOpen.value = true;
+  emit('visible-change', true);
+  updateDropdownPos();
+};
+
+const closeDropdown = () => {
+  isOpen.value = false;
+  emit('visible-change', false);
+};
+
 const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-  emit('visible-change', isOpen.value);
+  isOpen.value ? closeDropdown() : openDropdown();
 };
 
 const selectOption = (option: Option) => {
@@ -41,10 +62,14 @@ const handleClickOutside = (event: MouseEvent) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+  window.addEventListener('resize', updateDropdownPos);
+  window.addEventListener('scroll', updateDropdownPos, true);
 });
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('resize', updateDropdownPos);
+  window.removeEventListener('scroll', updateDropdownPos, true);
 });
 </script>
 
@@ -56,21 +81,26 @@ onUnmounted(() => {
       <span class="c-select__arrow">▼</span>
     </div>
 
-    <Transition name="select-fade">
-      <div v-if="isOpen" class="c-select__dropdown">
+    <Teleport to="body">
+      <Transition name="select-fade">
         <div 
-          v-for="option in options" 
-          :key="option.value" 
-          class="c-select__option"
-          :class="{ 'is-selected': modelValue === option.value }"
-          @click="selectOption(option)"
+          v-if="isOpen" 
+          class="c-select__dropdown"
+          :style="{ top: dropdownPos.top + 'px', left: dropdownPos.left + 'px', width: dropdownPos.width + 'px' }"
         >
-          <span class="c-select__option-text">{{ option.label }}</span>
-          <!-- Decoration for Huali -->
-          <span class="c-select__option-icon" v-if="modelValue === option.value">✦</span>
+          <div 
+            v-for="option in options" 
+            :key="option.value" 
+            class="c-select__option"
+            :class="{ 'is-selected': modelValue === option.value }"
+            @click="selectOption(option)"
+          >
+            <span class="c-select__option-text">{{ option.label }}</span>
+            <span class="c-select__option-icon" v-if="modelValue === option.value">✦</span>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -149,10 +179,11 @@ onUnmounted(() => {
   border: 1px solid var(--cf-color-border);
   border-radius: var(--cf-border-radius);
   box-shadow: var(--cf-shadow-hover);
-  z-index: 100;
+  z-index: 1300;
   overflow: hidden;
   max-height: 250px;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* Suya Dropdown */
@@ -169,7 +200,7 @@ onUnmounted(() => {
   border: 1px solid var(--cf-color-primary);
   box-shadow: 0 4px 12px var(--cf-shadow);
   border-radius: 4px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .c-select__option {

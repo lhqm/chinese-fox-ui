@@ -8,9 +8,6 @@ defineProps<{
   <div class="c-card">
     <div v-if="title" class="c-card__header">
       <span class="c-card__title">{{ title }}</span>
-      <!-- Huali Header Decoration -->
-      <div class="c-card__header-decor-left"></div>
-      <div class="c-card__header-decor-right"></div>
     </div>
     <div class="c-card__body">
       <slot></slot>
@@ -23,6 +20,8 @@ defineProps<{
     <div class="c-card__corner c-card__corner--tr"></div>
     <div class="c-card__corner c-card__corner--bl"></div>
     <div class="c-card__corner c-card__corner--br"></div>
+    <div class="cf-decor-corner tr"></div>
+    <div class="cf-decor-corner bl"></div>
   </div>
 </template>
 
@@ -82,34 +81,18 @@ defineProps<{
   position: relative;
 }
 
-/* Diagonal Corner Decorations */
-[data-theme="huali"] .c-card::before {
-  content: '';
-  position: absolute;
-  top: -4px; left: -4px;
-  width: 24px; height: 24px;
-  border-top: 3px solid #E60012;
-  border-left: 3px solid #E60012;
-  border-top-left-radius: 4px;
-  z-index: 1;
-}
-
-[data-theme="huali"] .c-card::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; right: -4px;
-  width: 24px; height: 24px;
-  border-bottom: 3px solid #E60012;
-  border-right: 3px solid #E60012;
-  border-bottom-right-radius: 4px;
-  z-index: 1;
-}
-
-/* Optional: Add a subtle cloud/pattern at the top right inside */
 [data-theme="huali"] .c-card__header {
-  border-bottom: 1px dashed rgba(230, 0, 18, 0.2);
+  border-bottom: 1px dashed rgba(194, 62, 62, 0.18);
   background: transparent;
   position: relative;
+}
+
+[data-theme="huali"] .c-card__corner {
+  display: none;
+}
+[data-theme="huali"] .c-card .cf-decor-corner.tr {
+  top: -2px;
+  right: -2px;
 }
 
 [data-theme="huali"] .c-card__title {

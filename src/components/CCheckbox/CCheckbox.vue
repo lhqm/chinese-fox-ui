@@ -80,21 +80,24 @@ const handleClick = () => {
   transition: all 0.3s ease;
   border-radius: 2px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* Suya Check Mark (Ink Stroke Style) */
 .c-checkbox__inner::after {
   content: "";
   position: absolute;
-  top: 2px;
-  left: 5px;
-  width: 6px;
+  top: 50%;
+  left: 50%;
+  width: 10px;
   height: 10px;
-  border: 2px solid #fff;
-  border-top: 0;
-  border-left: 0;
-  transform: rotate(45deg) scale(0);
-  transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46); 
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, var(--cf-color-primary) 40%, rgba(0,0,0,0.2) 41%);
+  box-shadow: 0 0 4px rgba(0,0,0,0.12);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46), box-shadow 0.2s ease; 
+  z-index: 2;
 }
 
 /* Checked State - Suya */
@@ -104,7 +107,8 @@ const handleClick = () => {
 }
 
 .c-checkbox--checked .c-checkbox__inner::after {
-  transform: rotate(45deg) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  box-shadow: 0 0 6px rgba(0,0,0,0.18);
 }
 
 /* Hover Effect - Suya */
@@ -122,10 +126,14 @@ const handleClick = () => {
 
 /* Huali Check Mark (Gold Tick) */
 [data-theme="huali"] .c-checkbox__inner::after {
-  border-color: var(--cf-color-secondary); /* Gold Tick */
-  border-width: 3px;
-  top: 1px;
-  left: 5px;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--cf-color-primary);
+  box-shadow: 0 0 8px rgba(194, 62, 62, 0.35);
+  transform: translate(-50%, -50%) scale(0);
 }
 
 /* Checked State - Huali */
@@ -133,6 +141,10 @@ const handleClick = () => {
   background-color: var(--cf-color-primary); /* Red Background */
   border-color: var(--cf-color-primary);
   box-shadow: 0 0 5px var(--cf-shadow-hover);
+}
+
+[data-theme="huali"] .c-checkbox--checked .c-checkbox__inner::after {
+  transform: translate(-50%, -50%) scale(1);
 }
 
 /* Huali Label */

@@ -56,7 +56,7 @@ const handleClose = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 3000;
   font-size: 14px;
 }
 

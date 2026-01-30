@@ -1,14 +1,24 @@
 {
-  "name": "chinese-fox-ui",
-  "private": true,
-  "version": "0.0.0",
+  "name": "chinese-fox-ui-lhqm",
+  "version": "0.1.0",
   "type": "module",
+  "description": "Chinese Fox UI · 一套中国风的 Vue3 组件库，支持素雅/华丽双主题与丰富装饰动画。",
+  "author": "离狐千慕",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "build:lib": "vite build --config vite.lib.config.ts",
+    "pack": "npm pack"
   },
+  "main": "dist/chinese-fox-ui.umd.js",
+  "module": "dist/chinese-fox-ui.es.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "dependencies": {
     "@types/highlight.js": "^10.1.0",
     "highlight.js": "^11.11.1",
@@ -22,5 +32,16 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vue-tsc": "^1.8.22"
-  }
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "keywords": [
+    "vue3",
+    "ui-library",
+    "chinese-style",
+    "中国风",
+    "组件库",
+    "Chinese Fox UI"
+  ]
 }

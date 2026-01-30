@@ -51,6 +51,8 @@ const handleClick = () => {
   font-family: var(--cf-font-family);
   color: var(--cf-color-text);
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .c-radio--disabled {
@@ -77,6 +79,7 @@ const handleClick = () => {
   transition: all 0.3s ease;
   box-sizing: border-box;
   position: relative;
+  z-index: 1;
 }
 
 /* Suya Dot */
@@ -88,9 +91,27 @@ const handleClick = () => {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--cf-color-primary);
+  background: radial-gradient(circle at 50% 50%, var(--cf-color-primary) 50%, rgba(0,0,0,0.2) 51%);
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46); 
+  z-index: 2;
+}
+
+/* Suya Ink Ring */
+.c-radio__inner::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--cf-color-primary);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  filter: blur(0.4px);
+  z-index: 1;
 }
 
 /* Checked State - Suya */
@@ -99,6 +120,11 @@ const handleClick = () => {
 }
 
 .c-radio--checked .c-radio__inner::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.c-radio--checked .c-radio__inner::before {
+  opacity: 0.6;
   transform: translate(-50%, -50%) scale(1);
 }
 
@@ -116,10 +142,10 @@ const handleClick = () => {
 
 /* Huali Jewel Dot */
 [data-theme="huali"] .c-radio__inner::after {
-  background-color: #E60012; /* Red Jewel */
+  background-color: var(--cf-color-primary); /* Vermilion */
   width: 10px;
   height: 10px;
-  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+  box-shadow: 0 0 6px rgba(194, 62, 62, 0.4);
 }
 
 /* Checked State - Huali */
@@ -127,6 +153,17 @@ const handleClick = () => {
   border-color: #FFD700; /* Gold Border when checked */
   background-color: #FFF8E7;
   box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+}
+
+[data-theme="suya"] .c-radio__inner {
+  background-color: #fff;
+  border: 2px solid var(--cf-color-border);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+[data-theme="suya"] .c-radio--checked .c-radio__inner {
+  border-color: var(--cf-color-primary);
+  box-shadow: 0 0 4px rgba(74,106,116,0.25);
 }
 
 [data-theme="huali"] .c-radio__label {

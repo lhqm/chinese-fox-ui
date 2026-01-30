@@ -99,6 +99,22 @@ onUpdated(() => {
   color: var(--cf-color-text);
   border-bottom: 2px solid var(--cf-color-border);
   padding-bottom: 8px;
+  position: relative;
+  padding-left: 36px;
+}
+
+.c-doc__title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-image: var(--cf-doc-title-icon);
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.6;
 }
 
 .c-doc__desc {

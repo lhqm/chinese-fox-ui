@@ -16,6 +16,7 @@ import CardDoc from './views/CardDoc.vue';
 import TagDoc from './views/TagDoc.vue';
 import SwitchDoc from './views/SwitchDoc.vue';
 import SelectDoc from './views/SelectDoc.vue';
+import CascaderDoc from './views/CascaderDoc.vue';
 import DialogDoc from './views/DialogDoc.vue';
 import CheckboxDoc from './views/CheckboxDoc.vue';
 import RadioDoc from './views/RadioDoc.vue';
@@ -32,15 +33,49 @@ import TabsDoc from './views/TabsDoc.vue';
 import BreadcrumbDoc from './views/BreadcrumbDoc.vue';
 import AlertDoc from './views/AlertDoc.vue';
 import MessageDoc from './views/MessageDoc.vue';
+import TooltipDoc from './views/TooltipDoc.vue';
+import PopoverDoc from './views/PopoverDoc.vue';
+import WatermarkDoc from './views/WatermarkDoc.vue';
+import StampDoc from './views/StampDoc.vue';
+import ScrollCarouselDoc from './views/ScrollCarouselDoc.vue';
+import FanCollapseDoc from './views/FanCollapseDoc.vue';
+import ProgressQinDoc from './views/ProgressQinDoc.vue';
+import CoupletBannerDoc from './views/CoupletBannerDoc.vue';
+import PoemCardDoc from './views/PoemCardDoc.vue';
+import ScrollPagerDoc from './views/ScrollPagerDoc.vue';
+import LoadingDoc from './views/LoadingDoc.vue';
+import ThemeSwitchDoc from './views/ThemeSwitchDoc.vue';
+import CThemeTransition from './components/CThemeTransition/CThemeTransition.vue';
 
-const { theme, toggleTheme } = useTheme();
+const { theme, toggleTheme, setTheme } = useTheme();
 
 const isHuali = computed({
   get: () => theme.value === 'huali',
-  set: () => toggleTheme()
+  set: () => handleThemeToggle()
 });
 
 const activeMenu = ref('button');
+
+const overlayShow = ref(false);
+const overlayPoem = ref('');
+const overlayIcon = ref('');
+const overlayToTheme = ref<'suya' | 'huali'>('suya');
+const handleThemeToggle = () => {
+  const next = theme.value === 'suya' ? 'huali' : 'suya';
+  overlayToTheme.value = next;
+  if (next === 'suya') {
+    overlayPoem.value = '醉后不知天在水，满船清梦压星河。';
+    overlayIcon.value = '/src/assets/古风物件，中国风，古代兵器，剑，古剑.svg';
+  } else {
+    overlayPoem.value = '泪眼问花花不语，乱红飞过秋千去。';
+    overlayIcon.value = '/src/assets/古风物件，中国风，古代乐器，箜篌.svg';
+  }
+  overlayShow.value = true;
+};
+const onTransitionFinish = () => {
+  setTheme(overlayToTheme.value);
+  overlayShow.value = false;
+};
 
 const componentMap: Record<string, any> = {
   layout: LayoutDoc,
@@ -50,6 +85,7 @@ const componentMap: Record<string, any> = {
   tag: TagDoc,
   switch: SwitchDoc,
   select: SelectDoc,
+  cascader: CascaderDoc,
   checkbox: CheckboxDoc,
   radio: RadioDoc,
   avatar: AvatarDoc,
@@ -65,6 +101,18 @@ const componentMap: Record<string, any> = {
   breadcrumb: BreadcrumbDoc,
   alert: AlertDoc,
   message: MessageDoc,
+  tooltip: TooltipDoc,
+  popover: PopoverDoc,
+  watermark: WatermarkDoc,
+  stamp: StampDoc,
+  scrollcarousel: ScrollCarouselDoc,
+  fancollapse: FanCollapseDoc,
+  progressqin: ProgressQinDoc,
+  coupletbanner: CoupletBannerDoc,
+  poemcard: PoemCardDoc,
+  scrollpager: ScrollPagerDoc,
+  loading: LoadingDoc,
+  themeswitch: ThemeSwitchDoc,
 };
 
 const currentComponent = computed(() => componentMap[activeMenu.value]);
@@ -94,12 +142,15 @@ const handleMenuSelect = (index: string) => {
           <CSubMenu title="通用 (General)">
             <CMenuItem index="layout">Layout 布局</CMenuItem>
             <CMenuItem index="button">Button 按钮</CMenuItem>
+            <CMenuItem index="divider">Divider 分割线</CMenuItem>
+            <CMenuItem index="coupletbanner">CoupletBanner 对联横幅</CMenuItem>
           </CSubMenu>
 
           <CSubMenu title="表单 (Data Entry)">
             <CMenuItem index="form">Form 表单</CMenuItem>
             <CMenuItem index="input">Input 输入框</CMenuItem>
             <CMenuItem index="select">Select 选择器</CMenuItem>
+            <CMenuItem index="cascader">Cascader 多级联动</CMenuItem>
             <CMenuItem index="checkbox">Checkbox 多选框</CMenuItem>
             <CMenuItem index="radio">Radio 单选框</CMenuItem>
             <CMenuItem index="switch">Switch 开关</CMenuItem>
@@ -112,6 +163,11 @@ const handleMenuSelect = (index: string) => {
             <CMenuItem index="avatar">Avatar 头像</CMenuItem>
             <CMenuItem index="badge">Badge 徽标</CMenuItem>
             <CMenuItem index="collapse">Collapse 折叠面板</CMenuItem>
+            <CMenuItem index="fancollapse">FanCollapse 折扇面板</CMenuItem>
+            <CMenuItem index="scrollcarousel">ScrollCarousel 卷轴轮播</CMenuItem>
+            <CMenuItem index="poemcard">PoemCard 诗词卡片</CMenuItem>
+            <CMenuItem index="watermark">Watermark 水印</CMenuItem>
+            <CMenuItem index="progressqin">ProgressQin 古琴进度</CMenuItem>
           </CSubMenu>
 
           <CSubMenu title="导航 (Navigation)">
@@ -119,24 +175,37 @@ const handleMenuSelect = (index: string) => {
             <CMenuItem index="tabs">Tabs 标签页</CMenuItem>
             <CMenuItem index="breadcrumb">Breadcrumb 面包屑</CMenuItem>
             <CMenuItem index="drawer">Drawer 抽屉</CMenuItem>
+            <CMenuItem index="scrollpager">ScrollPager 书卷分页</CMenuItem>
           </CSubMenu>
 
           <CSubMenu title="反馈 (Feedback)">
             <CMenuItem index="dialog">Dialog 对话框</CMenuItem>
             <CMenuItem index="alert">Alert 警告</CMenuItem>
             <CMenuItem index="message">Message 消息提示</CMenuItem>
+            <CMenuItem index="tooltip">Tooltip 文字提示</CMenuItem>
+            <CMenuItem index="popover">Popover 弹出框</CMenuItem>
+            <CMenuItem index="stamp">Stamp 印章</CMenuItem>
           </CSubMenu>
 
           <CSubMenu title="其他 (Others)">
-            <CMenuItem index="divider">Divider 分割线</CMenuItem>
+            <CMenuItem index="loading">Loading 加载</CMenuItem>
+            <CMenuItem index="themeswitch">ThemeTransition 主题切换动画</CMenuItem>
           </CSubMenu>
         </CMenu>
       </aside>
 
       <main class="content">
-        <Transition name="fade" mode="out-in">
+        <Transition name="screen-switch" mode="out-in">
           <component :is="currentComponent" :key="activeMenu" />
         </Transition>
+        <CThemeTransition
+          :show="overlayShow"
+          :to-theme="overlayToTheme"
+          :poem="overlayPoem"
+          :icon-src="overlayIcon"
+          :duration-ms="1200"
+          @finish="onTransitionFinish"
+        />
       </main>
     </div>
   </div>

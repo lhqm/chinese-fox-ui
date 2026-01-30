@@ -92,15 +92,14 @@ defineProps<{
 
 /* Suya Specifics */
 [data-theme="suya"] .c-button--primary {
-  /* Soft matte finish */
-  background: linear-gradient(to bottom, #5a7a84, #4a6a74);
-  box-shadow: 0 2px 5px rgba(74, 106, 116, 0.2);
-  border: none;
+  background: #4a6a74;
+  box-shadow: 0 2px 5px rgba(74, 106, 116, 0.18);
+  border: 1px solid rgba(74,106,116,0.25);
 }
 
 [data-theme="suya"] .c-button--primary:hover:not(:disabled) {
-  background: linear-gradient(to bottom, #4a6a74, #3a5a64);
-  box-shadow: 0 4px 10px rgba(74, 106, 116, 0.3);
+  background: #3a5a64;
+  box-shadow: 0 4px 10px rgba(74, 106, 116, 0.26);
 }
 
 [data-theme="suya"] .c-button--secondary {
@@ -115,20 +114,41 @@ defineProps<{
   background: rgba(74, 106, 116, 0.05);
 }
 
+[data-theme="suya"] .c-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(74,106,116,0.18);
+}
+
+[data-theme="suya"] .c-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(40% 40% at 30% 30%, rgba(74,106,116,0.12), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+[data-theme="suya"] .c-button:hover::before {
+  opacity: 1;
+}
+[data-theme="suya"] .c-button:active::before {
+  opacity: 0.6;
+}
+
 /* Huali Theme - Refined Semantic Colors */
 [data-theme="huali"] .c-button {
-  background: var(--cf-color-surface);
-  border: 1px solid var(--cf-color-primary);
-  color: var(--cf-color-primary);
-  box-shadow: 0 2px 4px var(--cf-shadow);
-  font-weight: bold;
-  overflow: visible;
+  background: #fff;
+  border: 1px solid var(--cf-color-border);
+  color: var(--cf-color-text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-weight: 500;
+  overflow: hidden;
 }
 
 [data-theme="huali"] .c-button:hover {
-  background: rgba(194, 62, 62, 0.05);
+  background: rgba(230,0,18,0.05);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px var(--cf-shadow-hover);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 [data-theme="huali"] .c-button:active {
@@ -137,14 +157,14 @@ defineProps<{
 
 /* Primary - Red/Gold (Official/Festive) */
 [data-theme="huali"] .c-button--primary {
-  background: linear-gradient(to bottom, var(--cf-color-primary), var(--cf-color-primary-hover));
-  color: var(--cf-color-secondary);
-  border-color: var(--cf-color-primary-hover);
-  box-shadow: 0 4px 6px var(--cf-shadow);
+  background: #fff;
+  color: var(--cf-color-primary);
+  border-color: var(--cf-color-primary);
+  box-shadow: none;
 }
 [data-theme="huali"] .c-button--primary:hover {
-  background: linear-gradient(to bottom, var(--cf-color-primary-hover), var(--cf-color-primary));
-  box-shadow: 0 0 10px var(--cf-shadow-hover);
+  background: rgba(230,0,18,0.06);
+  border-color: var(--cf-color-primary-hover);
 }
 
 /* Secondary - Gold/Brown (Earth/Bronze) */
@@ -163,44 +183,34 @@ defineProps<{
 /* Success - Jade Green (Jade/Nature) */
 /* Assuming CButton has a success variant or we add one. If not, this prepares for it. */
 [data-theme="huali"] .c-button.c-button--success {
-  background: linear-gradient(to bottom, #006400, #004d00);
-  color: #98FB98; /* Pale Green text */
-  border-color: #004d00;
-  box-shadow: 0 4px 6px rgba(0, 100, 0, 0.3);
+  background: #fff;
+  color: #006400;
+  border-color: #006400;
+  box-shadow: none;
 }
 [data-theme="huali"] .c-button.c-button--success:hover {
-  background: linear-gradient(to bottom, #008000, #006400);
-  box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+  background: rgba(0,128,0,0.08);
 }
 
 /* Danger - Deep Crimson (Blood/Fire) */
 /* Usually same as primary red but maybe darker */
 [data-theme="huali"] .c-button.c-button--danger {
-  background: linear-gradient(to bottom, #8B0000, #600000);
-  color: #fff;
-  border-color: #500000;
+  background: #fff;
+  color: #8B0000;
+  border-color: #8B0000;
 }
 
 /* Gold Rim Effect - Only for solid colored buttons */
-[data-theme="huali"] .c-button--primary::after,
-[data-theme="huali"] .c-button.c-button--success::after,
-[data-theme="huali"] .c-button.c-button--danger::after {
-  content: '';
-  position: absolute;
-  top: 2px; left: 2px; right: 2px; bottom: 2px;
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  border-radius: 4px;
-  pointer-events: none;
-}
-
-/* Disable existing generic styles */
-[data-theme="huali"] .c-button::after {
-   display: none; 
-}
+[data-theme="huali"] .c-button::after,
 [data-theme="huali"] .c-button--primary::after,
 [data-theme="huali"] .c-button--success::after,
 [data-theme="huali"] .c-button--danger::after {
-   display: block; 
+  display: none;
+}
+
+[data-theme="huali"] .c-button__bg-layer,
+[data-theme="huali"] .c-button__shine {
+  display: none;
 }
 
 .c-button.is-disabled {

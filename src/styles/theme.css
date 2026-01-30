@@ -41,6 +41,10 @@
   --cf-bg-size: 200px 200px;
   
   --cf-accent-decoration: none;
+
+  --cf-svg-window-grille: url("/src/assets/窗花-黑白-左下.svg");
+  --cf-svg-ink-circle: url("/src/assets/墨圈.svg");
+  --cf-doc-title-icon: url("/src/assets/古风物件，中国风，文房四宝，笔，毛笔.svg");
 }
 
 /* 
@@ -82,6 +86,10 @@
   
   /* Border Pattern - Updated to use the new softer red */
   --cf-border-pattern: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none'/%3E%3Cpath d='M9 0h2v20H9zM0 9h20v2H0z' fill='%23C23E3E' opacity='0.08'/%3E%3Crect x='8' y='8' width='4' height='4' fill='%23E6B800' opacity='0.2'/%3E%3C/svg%3E");
+
+  --cf-svg-window-grille: url("/src/assets/窗花-红-右上.svg");
+  --cf-svg-ink-circle: url("/src/assets/墨圈.svg");
+  --cf-doc-title-icon: url("/src/assets/竹简.svg");
 }
 
 body {
@@ -94,6 +102,59 @@ body {
   transition: var(--cf-transition);
   margin: 0;
   min-height: 100vh;
+}
+
+/* Decorative corner utility */
+.cf-decor-corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background-image: var(--cf-svg-window-grille);
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.cf-decor-corner.tr { top: -2px; right: -2px; transform: none; }
+.cf-decor-corner.tl { top: -2px; left: -2px; transform: rotate(-90deg); }
+.cf-decor-corner.bl { bottom: -2px; left: -2px; transform: rotate(180deg); }
+.cf-decor-corner.br { bottom: -2px; right: -2px; transform: rotate(90deg); }
+
+/* Suya: black-white grille asset is base oriented at bottom-left */
+[data-theme="suya"] .cf-decor-corner.bl { transform: none; }
+[data-theme="suya"] .cf-decor-corner.tr { transform: rotate(180deg); }
+
+/* Themed Scrollbars */
+[data-theme="suya"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+[data-theme="suya"] ::-webkit-scrollbar-track {
+  background: rgba(74, 106, 116, 0.06);
+  border-radius: 4px;
+}
+[data-theme="suya"] ::-webkit-scrollbar-thumb {
+  background: rgba(74, 106, 116, 0.35);
+  border-radius: 4px;
+}
+[data-theme="suya"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 106, 116, 0.5);
+}
+
+[data-theme="huali"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+[data-theme="huali"] ::-webkit-scrollbar-track {
+  background: rgba(194, 62, 62, 0.08);
+  border-radius: 4px;
+}
+[data-theme="huali"] ::-webkit-scrollbar-thumb {
+  background: rgba(194, 62, 62, 0.45);
+  border-radius: 4px;
+  box-shadow: inset 0 0 2px rgba(255,255,255,0.4);
+}
+[data-theme="huali"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(194, 62, 62, 0.6);
 }
 
 /* Global Transitions */
@@ -132,4 +193,140 @@ body {
 .slide-right-enter-from, .slide-right-leave-to {
   opacity: 0;
   transform: translateX(12px);
+}
+
+/* Screen Switch Transition */
+.screen-switch-enter-active, .screen-switch-leave-active {
+  transition: opacity 260ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.screen-switch-enter-from, .screen-switch-leave-to {
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+}
+
+/* Close Pop Transition */
+.close-pop-enter-active, .close-pop-leave-active {
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+.close-pop-enter-from, .close-pop-leave-to {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* Loader Animations */
+@keyframes ink-ripple {
+  0% { box-shadow: 0 0 0 0 rgba(74,106,116,0.35); }
+  70% { box-shadow: 0 0 0 14px rgba(74,106,116,0.0); }
+  100% { box-shadow: 0 0 0 0 rgba(74,106,116,0.0); }
+}
+@keyframes red-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Theme Transition Overlay */
+.theme-trans {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+.theme-trans__glass {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.08);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.theme-trans__curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  transform-origin: top;
+  animation: curtain-down 900ms ease forwards;
+}
+.theme-trans__poem {
+  position: relative;
+  color: #111;
+  font-family: var(--cf-font-family);
+  font-size: 20px;
+  text-align: center;
+  line-height: 1.8;
+  padding: 0 24px;
+  max-width: 800px;
+}
+.theme-trans__progress {
+  margin-top: 16px;
+  width: 60%;
+  max-width: 720px;
+  height: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.theme-trans__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+}
+.theme-trans__icon {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.theme-trans--to-suya .theme-trans__curtain {
+  background: linear-gradient(180deg, rgba(44,62,80,0.20), rgba(44,62,80,0.45));
+}
+.theme-trans--to-suya .theme-trans__glass {
+  background: rgba(44,62,80,0.12);
+}
+.theme-trans--to-suya .theme-trans__poem {
+  color: #111;
+}
+.theme-trans--to-suya .theme-trans__progress {
+  background: rgba(0,0,0,0.1);
+}
+.theme-trans--to-suya .theme-trans__bar {
+  background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+}
+.theme-trans--to-suya .theme-trans__icon {
+  filter: grayscale(100%) brightness(0.25);
+}
+.theme-trans--to-huali .theme-trans__curtain {
+  background: linear-gradient(180deg, rgba(194,62,62,0.18), rgba(194,62,62,0.40));
+}
+.theme-trans--to-huali .theme-trans__glass {
+  background: rgba(194,62,62,0.10);
+}
+.theme-trans--to-huali .theme-trans__poem {
+  color: #4A1F1F;
+}
+.theme-trans--to-huali .theme-trans__progress {
+  background: rgba(194,62,62,0.12);
+}
+.theme-trans--to-huali .theme-trans__bar {
+  background: linear-gradient(90deg, rgba(194,62,62,0.5), rgba(194,62,62,0.85));
+}
+.theme-trans--to-huali .theme-trans__icon {
+  filter: sepia(100%) saturate(600%) hue-rotate(-10deg) brightness(1);
+}
+
+@keyframes curtain-down {
+  0% { height: 0; }
+  100% { height: 100vh; }
 }

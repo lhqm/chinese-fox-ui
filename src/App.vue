@@ -46,6 +46,16 @@ import ScrollPagerDoc from './views/ScrollPagerDoc.vue';
 import LoadingDoc from './views/LoadingDoc.vue';
 import ThemeSwitchDoc from './views/ThemeSwitchDoc.vue';
 import CThemeTransition from './components/CThemeTransition/CThemeTransition.vue';
+import TimelineDoc from './views/TimelineDoc.vue';
+import MasonryDoc from './views/MasonryDoc.vue';
+import SkeletonDoc from './views/SkeletonDoc.vue';
+import CResponsiveDemo from './components/CResponsiveDemo/CResponsiveDemo.vue';
+import BackTopDoc from './views/BackTopDoc.vue';
+import StatisticDoc from './views/StatisticDoc.vue';
+import TreeDoc from './views/TreeDoc.vue';
+import UploadDoc from './views/UploadDoc.vue';
+import ShuJianDescDoc from './views/ShuJianDescDoc.vue';
+import DragDoc from './views/DragDoc.vue';
 
 const { theme, toggleTheme, setTheme } = useTheme();
 
@@ -113,6 +123,15 @@ const componentMap: Record<string, any> = {
   scrollpager: ScrollPagerDoc,
   loading: LoadingDoc,
   themeswitch: ThemeSwitchDoc,
+  timeline: TimelineDoc,
+  masonry: MasonryDoc,
+  skeleton: SkeletonDoc,
+  backtop: BackTopDoc,
+  statistic: StatisticDoc,
+  tree: TreeDoc,
+  upload: UploadDoc,
+  shujiandesc: ShuJianDescDoc,
+  drag: DragDoc,
 };
 
 const currentComponent = computed(() => componentMap[activeMenu.value]);
@@ -120,6 +139,11 @@ const currentComponent = computed(() => componentMap[activeMenu.value]);
 const handleMenuSelect = (index: string) => {
   activeMenu.value = index;
   window.scrollTo(0, 0);
+};
+
+const sidebarOpen = ref(false);
+const toggleSidebar = () => {
+  sidebarOpen.value = !sidebarOpen.value;
 };
 </script>
 
@@ -133,11 +157,12 @@ const handleMenuSelect = (index: string) => {
       <div class="header-right">
         <span class="theme-text">{{ theme === 'suya' ? '点墨江山 (素雅)' : '雄伟壮丽 (华丽)' }}</span>
         <CSwitch v-model="isHuali" />
+        <button class="menu-toggle" @click="toggleSidebar">菜单</button>
       </div>
     </header>
 
     <div class="main-container">
-      <aside class="sidebar">
+      <aside class="sidebar" :class="{ 'is-open': sidebarOpen }">
         <CMenu mode="vertical" :default-active="activeMenu" @select="handleMenuSelect">
           <CSubMenu title="通用 (General)">
             <CMenuItem index="layout">Layout 布局</CMenuItem>
@@ -168,6 +193,11 @@ const handleMenuSelect = (index: string) => {
             <CMenuItem index="poemcard">PoemCard 诗词卡片</CMenuItem>
             <CMenuItem index="watermark">Watermark 水印</CMenuItem>
             <CMenuItem index="progressqin">ProgressQin 古琴进度</CMenuItem>
+            <CMenuItem index="timeline">Timeline 时间轴</CMenuItem>
+            <CMenuItem index="masonry">Masonry 瀑布流</CMenuItem>
+            <CMenuItem index="statistic">Statistic 统计数值</CMenuItem>
+            <CMenuItem index="tree">Tree 树形组件</CMenuItem>
+            <CMenuItem index="shujiandesc">ShuJianDesc 书简描述</CMenuItem>
           </CSubMenu>
 
           <CSubMenu title="导航 (Navigation)">
@@ -189,7 +219,11 @@ const handleMenuSelect = (index: string) => {
 
           <CSubMenu title="其他 (Others)">
             <CMenuItem index="loading">Loading 加载</CMenuItem>
+            <CMenuItem index="skeleton">Skeleton 骨架屏</CMenuItem>
             <CMenuItem index="themeswitch">ThemeTransition 主题切换动画</CMenuItem>
+            <CMenuItem index="backtop">BackTop 回到顶部</CMenuItem>
+            <CMenuItem index="upload">Upload 上传</CMenuItem>
+            <CMenuItem index="drag">Drag 拖拽</CMenuItem>
           </CSubMenu>
         </CMenu>
       </aside>
@@ -198,6 +232,7 @@ const handleMenuSelect = (index: string) => {
         <Transition name="screen-switch" mode="out-in">
           <component :is="currentComponent" :key="activeMenu" />
         </Transition>
+        <CResponsiveDemo />
         <CThemeTransition
           :show="overlayShow"
           :to-theme="overlayToTheme"
@@ -271,6 +306,13 @@ const handleMenuSelect = (index: string) => {
   font-size: 14px;
   color: var(--cf-color-text-secondary);
 }
+.menu-toggle {
+  display: none;
+  padding: 6px 10px;
+  border: 1px solid var(--cf-color-border);
+  background: var(--cf-color-surface);
+  border-radius: 6px;
+}
 
 .main-container {
   display: flex;
@@ -288,6 +330,7 @@ const handleMenuSelect = (index: string) => {
   position: sticky;
   top: 64px;
   height: calc(100vh - 64px);
+  transition: transform 0.3s ease;
 }
 
 .content {
@@ -332,5 +375,52 @@ const handleMenuSelect = (index: string) => {
 
 [data-theme="huali"] .sidebar {
   border-right: 2px solid #E60012;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 767px) {
+  .logo-text { font-size: 16px; }
+  .theme-text { display: none; }
+  .menu-toggle { display: inline-block; }
+  .main-container {
+    max-width: 100%;
+    width: 100%;
+  }
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 64px;
+    height: calc(100vh - 64px);
+    width: 80vw;
+    max-width: 280px;
+    transform: translateX(-100%);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    z-index: 101;
+  }
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+  .content {
+    padding: 16px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .menu-toggle { display: inline-block; }
+  .sidebar {
+    width: 220px;
+  }
+  .content {
+    padding: 24px;
+  }
+}
+@media (min-width: 1200px) {
+  .menu-toggle { display: none; }
+  .sidebar {
+    width: 260px;
+    transform: none !important;
+  }
+  .content {
+    padding: 40px;
+  }
 }
 </style>

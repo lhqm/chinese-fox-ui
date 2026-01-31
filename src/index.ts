@@ -16,6 +16,16 @@ export { default as CMenuItem } from './components/CMenu/CMenuItem.vue';
 export { default as CSubMenu } from './components/CMenu/CSubMenu.vue';
 export { default as CLoading } from './components/CLoading/CLoading.vue';
 export { default as Loading } from './components/CLoading';
+export { default as CTimeline } from './components/CTimeline/CTimeline.vue';
+export { default as CTimelineItem } from './components/CTimeline/CTimelineItem.vue';
+export { default as CMasonry } from './components/CMasonry/CMasonry.vue';
+export { default as CSkeleton } from './components/CSkeleton/CSkeleton.vue';
+export { default as CBackTop } from './components/CBackTop/CBackTop.vue';
+export { default as CStatistic } from './components/CStatistic/CStatistic.vue';
+export { default as CTree } from './components/CTree/CTree.vue';
+export { default as CUpload } from './components/CUpload/CUpload.vue';
+export { default as CShuJianDesc } from './components/CShuJianDesc/CShuJianDesc.vue';
+export { default as CDragArea } from './components/CDragArea/CDragArea.vue';
 
 const components = [
   // Core components to auto-register
@@ -27,4 +37,3 @@ export default {
     // components.forEach((c: any) => app.component(c.name || c.__name, c));
   }
 };
-
